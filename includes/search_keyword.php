@@ -4,6 +4,9 @@
   <title></title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
@@ -12,34 +15,46 @@
   } );
   </script>
 </head>
-<?php
 
-include "db_connect.php";
-$keywordinform = $_GET["keyword"];
-$keywordinform = addslashes($keywordinform);
-echo "<h2>SEARCH FOR KEYWORD IN JOKE</h2>";
-$sql = "SELECT jokeId, jokeQues, jokeAns FROM jokes_table WHERE jokeQues LIKE '%$keywordinform%'";
-$result = $conn->query($sql);
-?>
+<div class="container">
+  <?php
+  include "db_connect.php";
+  $keywordinform = $_GET["keyword"];
+  $keywordinform = addslashes($keywordinform);
+  ?>
+  <div class="row">
+    <div class="col col-sm-12">
+      <h2>All the jokes with the keyword in them!</h2>
+    </div>
+  </div>
+  <?php
+  $sql = "SELECT jokeId, jokeQues, jokeAns FROM jokes_table WHERE jokeQues LIKE '%$keywordinform%'";
+  $result = $conn->query($sql);
+  ?>
 
-<div id="accordion">
+  <div id="accordion">
 
-<?php
+  <?php
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-     
-        echo '<h3>';
-        echo $row["jokeQues"];
-        echo '</h3>';
-        echo '<div><p>';
-        echo $row["jokeAns"];
-        echo '</p></div>';
-    }
-} else {
-    echo "0 results";
-}
+  if ($result->num_rows > 0) {
+      // output data of each row
+      while($row = $result->fetch_assoc()) {
+      
+          echo '<h3>';
+          echo $row["jokeQues"];
+          echo '</h3>';
+          echo '<div><p>';
+          echo $row["jokeAns"];
+          echo '</p></div>';
+      }
+  } else {
+      echo "0 results";
+  }
 
-?>
+  ?>
+
+
+  </div>
+  <br>
+  <a href="../index.php" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back?</a>
 </div>
